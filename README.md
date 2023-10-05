@@ -33,7 +33,7 @@ Your contributions, whether they are bug fixes, enhancements, or documentation i
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md), which allows you to freely use, modify, and distribute the code while providing some liability protection.## License
+This project is licensed under the [MIT License](LICENSE.md), which allows you to freely use, modify, and distribute the code while providing some liability protection.
 
 ---
 **#HTTPServer #CProgramming #LearningByDoing #OpenSourceProject #WebDevBasics**
