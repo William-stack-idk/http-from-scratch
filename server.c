@@ -176,6 +176,7 @@ HttpRequest* parseHttpRequest(const char* request) {
     char *request_copy = strdup(request);
     if (request_copy == NULL) {
         fprintf(stderr, "Allocation in parseHttpRequest: %s\n", strerror(errno));
+        free(http);
         return NULL;
     }
 
@@ -225,6 +226,7 @@ char* HttpResponseToString(const HttpResponse *response, long *size) {
     if (total_length < 0) {
         // Handle snprintf error
         fprintf(stderr, "Error in snprintf\n");
+        free(response->content);
         return NULL;
     }
 
@@ -232,6 +234,7 @@ char* HttpResponseToString(const HttpResponse *response, long *size) {
     if (http_response == NULL) {
         // Handle memory allocation failure
         fprintf(stderr, "Memory allocation error in HttpResponseToString\n");
+        free(response->content);
         return NULL;
     }
 
@@ -272,6 +275,7 @@ void handleGetRequest(int client_socket, const HttpRequest *request) {
             char *content = ReadFile(getRouteMappings[i].link, &size);
             if (content != NULL) {
                 response.content_length = size;
+                free(response.content);
                 response.content = content;
             } else {
                 // Handle file read error, e.g., by sending a 500 Internal Server Error response
@@ -283,7 +287,6 @@ void handleGetRequest(int client_socket, const HttpRequest *request) {
     }
 
     char *response_message = HttpResponseToString(&response, &size); // Don't need the size here
-
     ssize_t bytes_sent = send(client_socket, response_message, size, 0);
 
     free(response.content); // Free content memory
@@ -293,6 +296,7 @@ void handleGetRequest(int client_socket, const HttpRequest *request) {
     }
     printf("Response Sent: \n");
     printStringWithEscapeChars(response_message);
+    free(response_message);
 }
 
 
